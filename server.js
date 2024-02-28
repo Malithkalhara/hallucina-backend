@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import config from "./config.js";
 import user from "./routes/user.route.js";
 import { client } from "./config/client.js";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -17,21 +18,14 @@ console.log(`NODE_ENV=${config.NODE_ENV}`);
 app.use("/api/user", user);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send(`Welcome to Hallucina (+_+)`);
 });
 
-async function checkDatabaseConnection() {
-  try {
-    await client.connect();
-    console.log("Database connection successful");
-  } catch (error) {
-    console.error("Error connecting to the database:", error.message);
-  } finally {
-    // await client.end();
-  }
-}
 
-checkDatabaseConnection();
+mongoose.connect(process.env.MONGO_URL)
+  .then(()=>console.log("connected!"))
+  .catch((err)=>console.log(err));
+
 
 app.listen(config.PORT, config.HOST, () => {
   console.log(`APP LISTENING ON http://${config.HOST}:${config.PORT}`);
