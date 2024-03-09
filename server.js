@@ -1,11 +1,15 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import config from "./config.js";
-import user from "./routes/user.route.js";
-import file from "./routes/file.route.js"
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
+import config from "./config.js";
+
+import user from "./routes/user.route.js";
+import file from "./routes/file.route.js"
+import item from "./routes/item.route.js"
+
 dotenv.config();
 
 const app = express();
@@ -19,6 +23,7 @@ console.log(`NODE_ENV=${config.NODE_ENV}`);
 
 app.use("/api/user", user);
 app.use("/api/file", file);
+app.use("/api/item", item);
 
 app.get("/", (req, res) => {
   res.send(`Welcome to Hallucina (+_+)`);
