@@ -7,8 +7,10 @@ import dotenv from "dotenv";
 import config from "./config.js";
 
 import user from "./routes/user.route.js";
-import file from "./routes/file.route.js"
-import item from "./routes/item.route.js"
+import file from "./routes/file.route.js";
+import item from "./routes/item.route.js";
+import offer from "./routes/offer.route.js";
+import purchase from "./routes/purchase.route.js"
 
 dotenv.config();
 
@@ -24,6 +26,8 @@ console.log(`NODE_ENV=${config.NODE_ENV}`);
 app.use("/api/user", user);
 app.use("/api/file", file);
 app.use("/api/item", item);
+app.use("/api/offer/",offer);
+app.use("/api/purchase/",purchase);
 
 app.get("/", (req, res) => {
   res.send(`Welcome to Hallucina (+_+)`);
