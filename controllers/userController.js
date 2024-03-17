@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtil.js";
-import RefreshToken from "../models/refreshToken.model.js";
 
 
 export const getUsers = async (req, res) => {
@@ -57,6 +56,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     
     try{
+        console.log("Login")
         const {email , password} = req.body;
         let user = await User.findOne({email});
 
@@ -95,7 +95,7 @@ export const login = async (req, res) => {
         });
     }catch(err){
         
-        return res.status(401).send(err.message);
+        return res.status(500).send(err.message);
     }   
 }
 
@@ -121,14 +121,8 @@ export const logout = async (req,res) => {
 }
 
 export const token = async (req, res) => {
-    
-    const token = req.body.token;
+    const token = req.body.refreshToken;
     if (token == null) return res.status(401).json({message: "refresh token is null"});
-    const tokenInDatabase = RefreshToken.findOne({token});
-    if (tokenInDatabase===null){
-        
-        return res.sendStatus(403)
-    }
     Jwt.verify(token, process.env.JWT_REFRESH_KEY, (err, user)=>{
 
         if (err) {

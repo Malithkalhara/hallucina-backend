@@ -26,6 +26,7 @@ router.get("/getUsers", authenticateToken, isAdmin, async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
+  console.log("register");
   register(req, res);
 });
 
@@ -37,15 +38,15 @@ router.get("/logout", authenticateToken, async (req, res) => {
   logout(req, res);
 });
 
-router.post("/token", authenticateToken, async (req, res) => {
-  token(req, res);
+router.post("/refresh", async (req, res) => {
+  token(req, res);  
 });
 
 router.delete("/delete/:id", authenticateToken, isAdmin, async (req, res) => {
   try {
     const removedUser = await User.findByIdAndDelete({ _id: req.params.id });
 
-    res.status(200).json(removedUser);
+    res.status(200).json(removedUser); 
   } catch (err) {
     res.status(501).json({ message: err.message });
   }
@@ -139,23 +140,24 @@ router.delete("/delete/:id", authenticateToken, isAdmin, async (req, res) => {
 //   }
 // });
 
-// router.get("/verify", async (req, res) => {
-//   try {
-//     const token = req.header("Authorization").split(" ")[1];
+router.post("/verify", async (req, res) => {
+  try {
+    const token = req.header("Authorization").split(" ")[1];
 
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-//     // const user = await User.findOne({_id:decoded._id});
-//     // if(!user){
-//     //     throw new Error();
-//     // }
-//     if (decoded) {
-//       return res.status(200).json({ message: "User is authenticated" });
-//     } else {
-//       throw new Error();
-//     }
-//   } catch (error) {
-//     res.status(401).json({ error: "Please authenticate." });
-//   }
-// });
+    // const user = await User.findOne({_id:decoded._id});
+    // if(!user){
+    //     throw new Error();
+    // }
+    if (decoded) {
+      return res.status(200).json({ message: "User is authenticated" });
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    res.status(401).json({ error: "Please authenticate." });
+  }
+});
 export default router;
+     
