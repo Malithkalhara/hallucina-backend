@@ -4,8 +4,6 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 
-import config from "./config.js";
-
 import file from "./routes/file.route.js";
 import item from "./routes/item.route.js";
 import offer from "./routes/offer.route.js";
@@ -13,6 +11,8 @@ import purchase from "./routes/purchase.route.js";
 import user from "./routes/user.route.js";
 
 dotenv.config();
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -27,8 +27,6 @@ app.use(
 );
 app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
-console.log(`NODE_ENV=${config.NODE_ENV}`);
-
 app.use("/api/user", user);
 app.use("/api/file", file);
 app.use("/api/item", item);
@@ -41,9 +39,9 @@ app.get("/", (req, res) => {
 
 mongoose
   .connect(process.env.MONGO_URL)
-  .then(() => console.log("connected!"))
+  .then(() => console.log("Database connected successfully!"))
   .catch((err) => console.log(err));
 
 app.listen(config.PORT, config.HOST, () => {
-  console.log(`APP LISTENING ON http://${config.HOST}:${config.PORT}`);
+  console.log(`APP LISTENING ON ${PORT}`);
 });
