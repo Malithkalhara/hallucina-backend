@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtil.js";
+import RefreshToken from "../models/refreshToken.model.js";
 
 
 export const getUsers = async (req, res) => {

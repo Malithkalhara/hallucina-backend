@@ -17,14 +17,15 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 dotenv.config();
-app.use(
-  cors({
-    origin: "http://localhost:3000", // Replace with your frontend's URL
-    methods: "GET,POST,OPTIONS",
-    allowedHeaders: "Content-Type, Authorization",
-    credentials: true,
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // Replace with your frontend's URL
+//     methods: "GET,POST,OPTIONS",
+//     allowedHeaders: "Content-Type, Authorization",
+//     credentials: true,
+//   })
+// );
 app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/user", user);
@@ -36,6 +37,8 @@ app.use("/api/purchase/", purchase);
 app.get("/", (req, res) => {
   res.send(`Welcome to Hallucina (+_+)`);
 });
+
+console.log(process.env.MONGO_URL);
 
 mongoose
   .connect(process.env.MONGO_URL)
