@@ -4,7 +4,7 @@ export const generateAccessToken = (user) => {
     const payload = {
         email: user.email,
         id: user.id,
-        role: user.roll,
+        role: user.role,
         first_name: user.first_name,
         last_name: user.last_name
     }
@@ -15,7 +15,7 @@ export const generateRefreshToken = (user) => {
     const payload = {
         email: user.email,
         id: user.id,
-        role: user.roll,
+        role: user.role,
         first_name: user.first_name,
         last_name: user.last_name
     }
